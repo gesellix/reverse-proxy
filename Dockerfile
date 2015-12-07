@@ -16,4 +16,7 @@ RUN echo '@community http://dl-4.alpinelinux.org/alpine/edge/community' >> /etc/
     && apk del --purge $DEL_PACKAGES \
     && rm -rf /var/cache/apk/* && rm -rf $GOPATH
 
+# enforce go to prefer /etc/hosts
+ENV GODEBUG netdns=go+1
+
 ENTRYPOINT [ "/bin/reverse-proxy" ]
