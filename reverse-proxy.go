@@ -39,6 +39,7 @@ func NewSingleHostReverseProxy(target *url.URL) http.HandlerFunc {
 func main() {
 	port := flag.String("port", "", "public server port, e.g. ':80'")
 	target := flag.String("target", "", "default target url, e.g. 'http://127.0.0.1:8080'")
+	debug := flag.Bool("debug", false, "show more debug output")
 
 	flag.Parse()
 
@@ -65,6 +66,8 @@ func main() {
 
 	http.HandleFunc("/", NewSingleHostReverseProxy(url))
 
-	log.Printf("ready to serve on %v", *port)
+	if *debug {
+		log.Printf("ready to proxy %v on %v", *target, *port)
+	}
 	log.Fatal(http.ListenAndServe(*port, nil))
 }
